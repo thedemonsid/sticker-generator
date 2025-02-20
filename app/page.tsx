@@ -1,101 +1,146 @@
-import Image from "next/image";
+"use client";
+
+import type React from "react";
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+
+interface StickerData {
+  prefix: string;
+  startNumber: number;
+  endNumber: number;
+  element: string;
+  slOd: string;
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [stickerData, setStickerData] = useState<StickerData>({
+    prefix: "RG-24-SOI-",
+    startNumber: 1,
+    endNumber: 10,
+    element: "PT-100 x 2",
+    slOd: "1500 / 8 mm",
+  });
+  const [stickers, setStickers] = useState<string[]>([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setStickerData((prev) => ({
+      ...prev,
+      [name]:
+        name === "startNumber" || name === "endNumber"
+          ? Number.parseInt(value)
+          : value,
+    }));
+  };
+
+  const generateStickers = () => {
+    const newStickers = [];
+    for (let i = stickerData.startNumber; i <= stickerData.endNumber; i++) {
+      newStickers.push(`
+        <div style="border: 1px solid black; padding: 10px; margin: 10px; width: 200px; text-align: center;">
+          <h3>RTD GENIX PVT. LTD.</h3>
+          <p>SR NO. :- ${stickerData.prefix}${i.toString().padStart(2, "0")}</p>
+          <p>Element :- ${stickerData.element}</p>
+          <p>SL/OD :- ${stickerData.slOd}</p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      `);
+    }
+    setStickers(newStickers);
+  };
+
+  const printStickers = () => {
+    const printWindow = window.open("", "", "height=500,width=800");
+    printWindow!.document.write(
+      "<html><head><title>Product Stickers</title></head><body>"
+    );
+    printWindow!.document.write(stickers.join(""));
+    printWindow!.document.write("</body></html>");
+    printWindow!.document.close();
+    printWindow!.print();
+  };
+
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">
+        Improved Product Sticker Generator
+      </h1>
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <Label htmlFor="prefix">SR NO. Prefix</Label>
+          <Input
+            id="prefix"
+            name="prefix"
+            value={stickerData.prefix}
+            onChange={handleInputChange}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+        </div>
+        <div>
+          <Label htmlFor="startNumber">Start Number</Label>
+          <Input
+            id="startNumber"
+            name="startNumber"
+            type="number"
+            value={stickerData.startNumber}
+            onChange={handleInputChange}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+        </div>
+        <div>
+          <Label htmlFor="endNumber">End Number</Label>
+          <Input
+            id="endNumber"
+            name="endNumber"
+            type="number"
+            value={stickerData.endNumber}
+            onChange={handleInputChange}
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+        <div>
+          <Label htmlFor="element">Element</Label>
+          <Input
+            id="element"
+            name="element"
+            value={stickerData.element}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <Label htmlFor="slOd">SL/OD</Label>
+          <Input
+            id="slOd"
+            name="slOd"
+            value={stickerData.slOd}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
+      <div className="flex justify-between mb-4">
+        <Button onClick={generateStickers} className="mb-4">
+          Generate Stickers
+        </Button>
+        <Button variant={"destructive"} onClick={printStickers}>
+          Print Stickers
+        </Button>
+      </div>
+      {stickers.length > 0 && (
+        <>
+          <h2 className="text-xl font-bold mb-2">Preview</h2>
+          <ScrollArea className="h-[50vh]">
+            <div className="grid grid-cols-3 gap-4 mb-4">
+              {stickers.map((sticker, index) => (
+                <Card key={index}>
+                  <CardContent dangerouslySetInnerHTML={{ __html: sticker }} />
+                </Card>
+              ))}
+            </div>
+            <ScrollBar></ScrollBar>
+          </ScrollArea>
+        </>
+      )}
     </div>
   );
 }
