@@ -69,7 +69,11 @@ export default function Home() {
     const scaleY = stickerData.height / 100;
     for (let i = stickerData.startNumber; i <= stickerData.endNumber; i++) {
       newStickers.push(`
-        <div style="border: 1px solid black; padding: 0; margin: 0; width: 200px; height: 100px; text-align: left; font-family: 'Arial', sans-serif; page-break-inside: avoid; transform: scale(${scaleX}, ${scaleY}); transform-origin: top left;">
+        <div style="border: 1px solid black; padding: 0; margin: 0; width: ${
+          200 * scaleX
+        }px; height: ${
+        100 * scaleY
+      }px; text-align: left; font-family: 'Arial', sans-serif; page-break-inside: avoid;">
           <h3 style="margin: 0; padding: 0;">RTD GENIX PVT. LTD.</h3>
           <p style="margin: 0; padding: 0;">SR NO. :- ${stickerData.prefix}${i
         .toString()
