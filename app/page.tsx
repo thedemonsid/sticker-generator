@@ -1,8 +1,7 @@
 "use client";
 
-import type React from "react";
-
-import { useState } from "react";
+import React, { useState, useRef } from "react";
+import { useReactToPrint } from "react-to-print";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,24 +14,50 @@ interface StickerData {
   endNumber: number;
   element: string;
   slOd: string;
+  width: number;
+  height: number;
 }
+
+const StickerComponent = React.forwardRef<
+  HTMLDivElement,
+  { stickers: string[] }
+>(({ stickers }, ref) => (
+  <div
+    ref={ref}
+    style={{ display: "flex", flexWrap: "wrap", gap: 0, margin: 0, padding: 0 }}
+  >
+    {stickers.map((sticker, index) => (
+      <div
+        key={index}
+        className="sticker"
+        dangerouslySetInnerHTML={{ __html: sticker }}
+      />
+    ))}
+  </div>
+));
 
 export default function Home() {
   const [stickerData, setStickerData] = useState<StickerData>({
     prefix: "RG-24-SOI-",
     startNumber: 1,
     endNumber: 10,
-    element: "PT-100 x 2",
+    element: "",
     slOd: "1500 / 8 mm",
+    width: 200,
+    height: 100,
   });
   const [stickers, setStickers] = useState<string[]>([]);
+  const componentRef = useRef<HTMLDivElement>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setStickerData((prev) => ({
       ...prev,
       [name]:
-        name === "startNumber" || name === "endNumber"
+        name === "startNumber" ||
+        name === "endNumber" ||
+        name === "width" ||
+        name === "height"
           ? Number.parseInt(value)
           : value,
     }));
@@ -40,29 +65,28 @@ export default function Home() {
 
   const generateStickers = () => {
     const newStickers = [];
+    const scaleX = stickerData.width / 200;
+    const scaleY = stickerData.height / 100;
     for (let i = stickerData.startNumber; i <= stickerData.endNumber; i++) {
       newStickers.push(`
-        <div style="border: 1px solid black; padding: 10px; margin: 10px; width: 200px; text-align: center;">
-          <h3>RTD GENIX PVT. LTD.</h3>
-          <p>SR NO. :- ${stickerData.prefix}${i.toString().padStart(2, "0")}</p>
-          <p>Element :- ${stickerData.element}</p>
-          <p>SL/OD :- ${stickerData.slOd}</p>
+        <div style="border: 1px solid black; padding: 0; margin: 0; width: 200px; height: 100px; text-align: left; font-family: 'Arial', sans-serif; page-break-inside: avoid; transform: scale(${scaleX}, ${scaleY}); transform-origin: top left;">
+          <h3 style="margin: 0; padding: 0;">RTD GENIX PVT. LTD.</h3>
+          <p style="margin: 0; padding: 0;">SR NO. :- ${stickerData.prefix}${i
+        .toString()
+        .padStart(2, "0")}</p>
+          <p style="margin: 0; padding: 0;">Element :- ${
+            stickerData.element
+          }</p>
+          <p style="margin: 0; padding: 0;">SL/OD :- ${stickerData.slOd}</p>
         </div>
       `);
     }
     setStickers(newStickers);
   };
 
-  const printStickers = () => {
-    const printWindow = window.open("", "", "height=500,width=800");
-    printWindow!.document.write(
-      "<html><head><title>Product Stickers</title></head><body>"
-    );
-    printWindow!.document.write(stickers.join(""));
-    printWindow!.document.write("</body></html>");
-    printWindow!.document.close();
-    printWindow!.print();
-  };
+  const handlePrint = useReactToPrint({
+    contentRef: componentRef,
+  });
 
   return (
     <div className="container mx-auto p-4">
@@ -117,23 +141,46 @@ export default function Home() {
             onChange={handleInputChange}
           />
         </div>
+        <div>
+          <Label htmlFor="width">Sticker Width (px)</Label>
+          <Input
+            id="width"
+            name="width"
+            type="number"
+            value={stickerData.width}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <Label htmlFor="height">Sticker Height (px)</Label>
+          <Input
+            id="height"
+            name="height"
+            type="number"
+            value={stickerData.height}
+            onChange={handleInputChange}
+          />
+        </div>
       </div>
       <div className="flex justify-between mb-4">
         <Button onClick={generateStickers} className="mb-4">
           Generate Stickers
         </Button>
-        <Button variant={"destructive"} onClick={printStickers}>
+        <Button variant={"destructive"} onClick={() => handlePrint()}>
           Print Stickers
         </Button>
       </div>
       {stickers.length > 0 && (
         <>
           <h2 className="text-xl font-bold mb-2">Preview</h2>
-          <ScrollArea className="h-[50vh]">
-            <div className="grid grid-cols-3 gap-4 mb-4">
+          <ScrollArea className="h-[400px]">
+            <div className="grid grid-cols-5 gap-0 mb-4">
               {stickers.map((sticker, index) => (
-                <Card key={index}>
-                  <CardContent dangerouslySetInnerHTML={{ __html: sticker }} />
+                <Card className="w-fit p-0 m-0" key={index}>
+                  <CardContent
+                    className="w-fit p-0 m-0"
+                    dangerouslySetInnerHTML={{ __html: sticker }}
+                  />
                 </Card>
               ))}
             </div>
@@ -141,6 +188,9 @@ export default function Home() {
           </ScrollArea>
         </>
       )}
+      <div style={{ display: "none" }}>
+        <StickerComponent ref={componentRef} stickers={stickers} />
+      </div>
     </div>
   );
 }
