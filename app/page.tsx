@@ -18,6 +18,7 @@ interface StickerData {
   width: number;
   height: number;
   number: number;
+  mfgDate?: string;
 }
 
 export default function Home() {
@@ -30,6 +31,7 @@ export default function Home() {
     width: 200,
     height: 100,
     number: 1,
+    mfgDate: "",
   });
   const [stickers, setStickers] = useState<StickerData[]>([]);
   const componentRef = useRef<HTMLDivElement>(null);
@@ -62,6 +64,7 @@ export default function Home() {
         slOd: stickerData.slOd,
         width: 200 * scaleX,
         height: 100 * scaleY,
+        mfgDate: stickerData.mfgDate
       });
     }
     setStickers(newStickers);
@@ -72,7 +75,7 @@ export default function Home() {
   });
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 max-w-6xl">
       <h1 className="text-2xl font-bold mb-4">
         Improved Product Sticker Generator
       </h1>
@@ -92,7 +95,7 @@ export default function Home() {
         <>
           <h2 className="text-xl font-bold mb-2">Preview</h2>
           <ScrollArea className="h-[400px]">
-            <div className="grid grid-cols-5 gap-0 mb-4">
+            <div className="flex flex-wrap justify-start gap-0 mb-4">
               {stickers.map((sticker, index) => (
                 <Card className="w-fit p-0 m-0" key={index}>
                   <Sticker {...sticker} />

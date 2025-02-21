@@ -9,7 +9,7 @@ interface StickerData {
   element: string;
   slOd: string;
   width: number | undefined;
-  height: number | undefined;
+  mfgDate?: string;
 }
 
 interface StickerFormProps {
@@ -21,7 +21,7 @@ const StickerForm: React.FC<StickerFormProps> = ({
   stickerData,
   handleInputChange,
 }) => (
-  <div className="grid grid-cols-2 gap-4 mb-4">
+  <div className="grid grid-cols-4 gap-4 mb-4">
     <div>
       <Label htmlFor="prefix">SR NO. Prefix</Label>
       <Input
@@ -83,14 +83,13 @@ const StickerForm: React.FC<StickerFormProps> = ({
       />
     </div>
     <div>
-      <Label htmlFor="height">Sticker Height (px)</Label>
+      <Label htmlFor="mfgDate">MFG Date</Label>
       <Input
-        id="height"
-        name="height"
-        type="number"
-        value={stickerData.height}
+        id="mfgDate"
+        name="mfgDate"
+        type="date"
+        value={stickerData.mfgDate}
         onChange={handleInputChange}
-        min={1}
       />
     </div>
   </div>
