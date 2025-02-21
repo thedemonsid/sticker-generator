@@ -24,12 +24,12 @@ const StickerComponent = React.forwardRef<
 >(({ stickers }, ref) => (
   <div
     ref={ref}
-    style={{ display: "flex", flexWrap: "wrap", gap: 0, margin: 0, padding: 0 }}
+    className="flex flex-wrap justify-start p-1"
   >
     {stickers.map((sticker, index) => (
       <div
         key={index}
-        className="sticker"
+        className="sticker p-1"
         dangerouslySetInnerHTML={{ __html: sticker }}
       />
     ))}
@@ -69,7 +69,7 @@ export default function Home() {
     const scaleY = stickerData.height / 100;
     for (let i = stickerData.startNumber; i <= stickerData.endNumber; i++) {
       newStickers.push(`
-        <div style="border: 1px solid black; padding: 0; margin: 0; width: ${
+        <div style="border: 1px solid black; padding: 2px; margin: 0; width: ${
           200 * scaleX
         }px; height: ${
         100 * scaleY
@@ -115,6 +115,7 @@ export default function Home() {
             type="number"
             value={stickerData.startNumber}
             onChange={handleInputChange}
+            min={1}
           />
         </div>
         <div>
@@ -125,6 +126,7 @@ export default function Home() {
             type="number"
             value={stickerData.endNumber}
             onChange={handleInputChange}
+            min={1}
           />
         </div>
         <div>
@@ -153,6 +155,7 @@ export default function Home() {
             type="number"
             value={stickerData.width}
             onChange={handleInputChange}
+            min={1}
           />
         </div>
         <div>
@@ -163,6 +166,7 @@ export default function Home() {
             type="number"
             value={stickerData.height}
             onChange={handleInputChange}
+            min={1}
           />
         </div>
       </div>
