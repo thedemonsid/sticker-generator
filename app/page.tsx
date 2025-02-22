@@ -15,10 +15,9 @@ interface StickerData {
   endNumber: number;
   element: string;
   slOd: string;
-  width: number;
-  height: number;
   number: number;
   mfgDate?: string;
+  productIdentifier?: string;
 }
 
 export default function Home() {
@@ -28,10 +27,9 @@ export default function Home() {
     endNumber: 10,
     element: "",
     slOd: "1500 / 8 mm",
-    width: 200,
-    height: 100,
     number: 1,
     mfgDate: "",
+    productIdentifier: "",
   });
   const [stickers, setStickers] = useState<StickerData[]>([]);
   const componentRef = useRef<HTMLDivElement>(null);
@@ -52,8 +50,6 @@ export default function Home() {
 
   const generateStickers = () => {
     const newStickers = [];
-    const scaleX = stickerData.width / 200;
-    const scaleY = stickerData.height / 100;
     for (let i = stickerData.startNumber; i <= stickerData.endNumber; i++) {
       newStickers.push({
         prefix: stickerData.prefix,
@@ -62,9 +58,8 @@ export default function Home() {
         number: i,
         element: stickerData.element,
         slOd: stickerData.slOd,
-        width: 200 * scaleX,
-        height: 100 * scaleY,
-        mfgDate: stickerData.mfgDate
+        mfgDate: stickerData.mfgDate,
+        productIdentifier: stickerData.productIdentifier,
       });
     }
     setStickers(newStickers);

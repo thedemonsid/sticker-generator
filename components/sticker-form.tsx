@@ -8,8 +8,8 @@ interface StickerData {
   endNumber: number | undefined;
   element: string;
   slOd: string;
-  width: number | undefined;
   mfgDate?: string;
+  productIdentifier?: string;
 }
 
 interface StickerFormProps {
@@ -72,23 +72,21 @@ const StickerForm: React.FC<StickerFormProps> = ({
       />
     </div>
     <div>
-      <Label htmlFor="width">Sticker Width (px)</Label>
-      <Input
-        id="width"
-        name="width"
-        type="number"
-        value={stickerData.width}
-        onChange={handleInputChange}
-        min={1}
-      />
-    </div>
-    <div>
       <Label htmlFor="mfgDate">MFG Date</Label>
       <Input
         id="mfgDate"
         name="mfgDate"
         type="date"
         value={stickerData.mfgDate}
+        onChange={handleInputChange}
+      />
+    </div>
+    <div>
+      <Label htmlFor="productIdentifier">Product Identifier (Optional)</Label>
+      <Input
+        id="productIdentifier"
+        name="productIdentifier"
+        value={stickerData.productIdentifier}
         onChange={handleInputChange}
       />
     </div>

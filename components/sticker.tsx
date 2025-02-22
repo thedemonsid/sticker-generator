@@ -5,8 +5,8 @@ interface StickerProps {
   number: number;
   element: string;
   slOd: string;
-  width: number;
   mfgDate?: string;
+  productIdentifier?: string;
 }
 
 const Sticker: React.FC<StickerProps> = ({
@@ -14,22 +14,20 @@ const Sticker: React.FC<StickerProps> = ({
   number,
   element,
   slOd,
-  width,
   mfgDate,
+  productIdentifier,
 }) => {
   return (
-    <div
-      className="sticker border border-black text-left font-sans px-1 break-inside-avoid"
-      style={{ width: `${width}px` }}
-    >
+    <div className="border border-black text-left px-1 break-inside-avoid font-serif rounded-md">
       <h3 className="font-bold">RTD GENIX PVT. LTD.</h3>
-      <p>
+      {productIdentifier && <p className="text-xs text-center">{productIdentifier}</p>}
+      <p className="text-sm">
         SR NO. :- {prefix}
-        {number.toString().padStart(2, "0")}
+        {number.toString().padStart(3, "0")}
       </p>
-      {element && <p>Element :- {element}</p>} <p>SL/OD :- {slOd}</p>
-      {mfgDate && <div>MFG: {mfgDate}</div>}{" "}
-      {/* Conditionally render mfgDate */}
+      {element && <p className="text-sm">Element :- {element}</p>}{" "}
+      <p className="text-sm">SL/OD :- {slOd}</p>
+      {mfgDate && <div className="text-sm">MFG: {mfgDate}</div>}{" "}
     </div>
   );
 };

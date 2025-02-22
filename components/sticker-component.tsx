@@ -7,8 +7,8 @@ interface StickerComponentProps {
     number: number;
     element: string;
     slOd: string;
-    width: number;
-    height: number;
+    mfgDate?: string;
+    productIdentifier?: string;
   }[];
 }
 
