@@ -26,4 +26,6 @@ const StickerComponent = React.forwardRef<
   </div>
 ));
 
+StickerComponent.displayName = "StickerComponent";
+
 export default StickerComponent;
