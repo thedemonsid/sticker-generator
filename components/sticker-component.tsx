@@ -18,7 +18,7 @@ const StickerComponent = React.forwardRef<
 >(({ stickers }, ref) => (
   <div
     ref={ref}
-    className="break-inside-avoid flex flex-wrap justify-start p-1 gap-1"
+    className="break-inside-avoid flex flex-wrap justify-start p-5 gap-4"
   >
     {stickers.map((sticker, index) => (
       <Sticker key={index} {...sticker} />
