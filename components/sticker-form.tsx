@@ -7,7 +7,8 @@ interface StickerData {
   startNumber: number | undefined;
   endNumber: number | undefined;
   element: string;
-  slOd: string;
+  slOd?: string;
+  wireLength?: string;
   mfgDate?: string;
   productIdentifier?: string;
 }
@@ -68,6 +69,16 @@ const StickerForm: React.FC<StickerFormProps> = ({
         id="slOd"
         name="slOd"
         value={stickerData.slOd}
+        onChange={handleInputChange}
+      />
+    </div>
+    {/* Wire length */}
+    <div>
+      <Label htmlFor="wireLength">Wire Length</Label>
+      <Input
+        id="wireLength"
+        name="wireLength"
+        value={stickerData.wireLength}
         onChange={handleInputChange}
       />
     </div>

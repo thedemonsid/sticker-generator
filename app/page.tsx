@@ -15,6 +15,7 @@ interface StickerData {
   endNumber: number;
   element: string;
   slOd: string;
+  wireLength?: string;
   number: number;
   mfgDate?: string;
   productIdentifier?: string;
@@ -27,6 +28,7 @@ export default function Home() {
     endNumber: 10,
     element: "",
     slOd: "1500 / 8 mm",
+    wireLength: "",
     number: 1,
     mfgDate: "",
     productIdentifier: "",
@@ -58,6 +60,7 @@ export default function Home() {
         number: i,
         element: stickerData.element,
         slOd: stickerData.slOd,
+        wireLength: stickerData.wireLength,
         mfgDate: stickerData.mfgDate,
         productIdentifier: stickerData.productIdentifier,
       });
