@@ -10,6 +10,7 @@ import StickerForm from "@/components/sticker-form";
 import Sticker from "@/components/sticker";
 
 interface StickerData {
+  companyName?: string;
   prefix: string;
   startNumber: number;
   endNumber: number;
@@ -23,6 +24,7 @@ interface StickerData {
 
 export default function Home() {
   const [stickerData, setStickerData] = useState<StickerData>({
+    companyName: "RTD GENIX PVT. LTD.",
     prefix: "RG-24-SOI-",
     startNumber: 1,
     endNumber: 10,
@@ -54,6 +56,7 @@ export default function Home() {
     const newStickers = [];
     for (let i = stickerData.startNumber; i <= stickerData.endNumber; i++) {
       newStickers.push({
+        companyName: stickerData.companyName,
         prefix: stickerData.prefix,
         startNumber: stickerData.startNumber,
         endNumber: stickerData.endNumber,

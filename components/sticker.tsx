@@ -1,6 +1,7 @@
 import React from "react";
 
 interface StickerProps {
+  companyName?: string;
   prefix: string;
   number: number;
   element: string;
@@ -11,6 +12,7 @@ interface StickerProps {
 }
 
 const Sticker: React.FC<StickerProps> = ({
+  companyName,
   prefix,
   number,
   element,
@@ -21,7 +23,9 @@ const Sticker: React.FC<StickerProps> = ({
 }) => {
   return (
     <div className="border border-black text-left px-1 break-inside-avoid font-serif rounded-md">
-      <h3 className="font-bold">RTD GENIX PVT. LTD.</h3>
+      <h3 className="font-bold">
+        {companyName ? companyName : "RTD GENIX PVT. LTD."}
+      </h3>
       {productIdentifier && (
         <p className="text-xs text-center">{productIdentifier}</p>
       )}

@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 interface StickerData {
+  companyName?: string;
   prefix: string;
   startNumber: number | undefined;
   endNumber: number | undefined;
@@ -23,6 +24,15 @@ const StickerForm: React.FC<StickerFormProps> = ({
   handleInputChange,
 }) => (
   <div className="grid grid-cols-4 gap-4 mb-4">
+    <div>
+      <Label htmlFor="companyName">CompanyName</Label>
+      <Input
+        id="companyName"
+        name="companyName"
+        value={stickerData.companyName}
+        onChange={handleInputChange}
+      />
+    </div>
     <div>
       <Label htmlFor="prefix">SR NO. Prefix</Label>
       <Input

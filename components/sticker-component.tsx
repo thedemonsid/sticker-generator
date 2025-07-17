@@ -3,6 +3,7 @@ import Sticker from "./sticker";
 
 interface StickerComponentProps {
   stickers: {
+    companyName?: string;
     prefix: string;
     number: number;
     element: string;
