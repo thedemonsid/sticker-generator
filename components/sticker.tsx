@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface StickerProps {
   companyName?: string;
@@ -23,20 +23,20 @@ const Sticker: React.FC<StickerProps> = ({
 }) => {
   return (
     <div className="border border-black text-left px-1 break-inside-avoid font-serif rounded-md">
-      <h3 className="font-bold">
-        {companyName ? companyName : "RTD GENIX PVT. LTD."}
+      <h3 className="font-bold tracking-tighter text-xs">
+        {companyName ? companyName : 'RTD GENIX PVT. LTD.'}
       </h3>
       {productIdentifier && (
         <p className="text-xs text-center">{productIdentifier}</p>
       )}
       <p className="text-sm">
         SR NO. :- {prefix}
-        {number.toString().padStart(3, "0")}
+        {number.toString().padStart(3, '0')}
       </p>
-      {element && <p className="text-sm">Element :- {element}</p>}{" "}
-      {wireLength && <p className="text-sm">Wire Length :- {wireLength}</p>}{" "}
-      {slOd && <p className="text-sm">SL/OD :- {slOd}</p>}{" "}
-      {mfgDate && <div className="text-sm">MFG: {mfgDate}</div>}{" "}
+      {element && <p className="text-sm">Element :- {element}</p>}{' '}
+      {wireLength && <p className="text-sm">Wire Length :- {wireLength}</p>}{' '}
+      {slOd && <p className="text-sm">SL/OD :- {slOd}</p>}{' '}
+      {mfgDate && <div className="text-sm">MFG: {mfgDate}</div>}{' '}
     </div>
   );
 };
